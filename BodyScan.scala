@@ -1,4 +1,4 @@
-import akka.actor.{ Actor, Props }
+import akka.actor.{ Actor, ActorRef }
 import akka.event.Logging
 
 case class BodyReport(currentPerson: ActorRef, passed: Boolean)

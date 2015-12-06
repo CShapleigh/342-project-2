@@ -1,4 +1,4 @@
-import akka.actor.{ Actor, Props }
+import akka.actor.Actor
 import akka.event.Logging
 
 Object DocumentCheck {
