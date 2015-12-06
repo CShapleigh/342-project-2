@@ -19,7 +19,7 @@ class Person(id: Int,  documentCheck: ActorRef, queues: Array[ActorRef]) extends
   def recieve = {
     case ValidDocument(queueNum) =>
       log.info(id + "goes to queue " + queueNum)
-      queues(queueNum) ! self
+      queues(queueNum) ! Ticket(self)
 
     case InvalidDocument() =>
       log.info(id + "has invalid documents and goes home")
