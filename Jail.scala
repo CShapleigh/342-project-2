@@ -13,7 +13,7 @@ class Jail() extends Actor {
   def receive = {
     // TODO: Add people to jailed list
 
-    case GetJailStatus() => sender ! peopleInJail
+    case GetJailStatus => sender ! peopleInJail
   }
 
 }
