@@ -1,10 +1,6 @@
 import akka.actor.Actor
 import akka.event.Logging
 
-Object DocumentCheck {
-  case class Person
-}
-
 class DocumentCheck(numQueues: Int) extends Actor {
   val log = Logging(context.system, this)
 
