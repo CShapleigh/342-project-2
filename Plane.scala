@@ -1,7 +1,7 @@
 import akka.actor.Actor
 import akka.event.Logging
 
-case Object requestPersonsInJail
+case object RequestPersonsInJail
 
 class Plane extends Actor {
   var peopleOnPlane = 0
@@ -11,7 +11,7 @@ class Plane extends Actor {
     case Person(currentPerson) =>
       log.info( currerPerson.id + " boards plane")
       peopleOnPlane += 1
-      Driver.jail ! requestPersonsInJail
+      Driver.jail ! RequestPersonsInJail
       if (peopleOnPlane + peopleInJail == Driver.personCount) {
         log.info("Plane takes off")
         context.system.shotdown

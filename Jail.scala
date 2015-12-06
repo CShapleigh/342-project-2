@@ -2,7 +2,7 @@ import akka.actor.{ Actor, ActorRef }
 import akka.event.Logging
 
 // Messages received
-case class ReceivingToJail(currentPerson: ActorRef)
+case class JailCount(peopleInJail: Int)
 
 // Roles: knows people in jail and number of security stations that feed jail
 class Jail() extends Actor {
@@ -11,9 +11,12 @@ class Jail() extends Actor {
   val peopleInJail = 0
 
   def receive = {
-    // TODO: Add people to jailed list
+    case Person(currentPerson) =>
+      log.info(currentPerson.id + " is now in jail")
+      peopleInJail += 1
 
-    case GetJailStatus => sender ! peopleInJail
+    case RequestPersonsInJail =>
+      sender ! JailCount(peopleInJail)
   }
 
 }
