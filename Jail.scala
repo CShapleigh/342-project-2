@@ -4,6 +4,8 @@ import akka.event.Logging
 // Messages received
 case class ReceivingToJail(currentPerson: ActorRef)
 
+case object GetJailStatus
+
 // Roles: knows people in jail and number of security stations that feed jail
 class Jail() extends Actor {
 
