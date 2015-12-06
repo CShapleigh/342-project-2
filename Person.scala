@@ -1,4 +1,5 @@
 import akka.actor.{ Actor, ActorRef }
+import akka.event.Logging
 
 case object Start
 case class Document(id: Int)
@@ -12,9 +13,9 @@ class Passenger(id: Int,  documentCheck: ActorRef, queues: Array[ActorRef]) exte
 
   val log = Logging(context.system, this)
 
-  def recieve = {
+  def receive = {
     case ValidDocument(queueNum) =>
     log.info(id + "goes to queue " + queueNum)
-      queues(queueNum) ! Ticket(id)
+      queues(queueNum) ! self
   }
 }
