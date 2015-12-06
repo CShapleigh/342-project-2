@@ -13,13 +13,13 @@ object Driver extends App {
     val queues: Array[ActorRef] = new Array(queueCount)
     val documentCheck = tsaScreenSystem.actorOf(Props(new DocumentCheck(queueCount)), name = "documentCheck")
 
-    for (i <- 0 util queueCount) {
+    for (i <- 0 until queueCount) {
       val tempBodyScan = tsaScreenSystem.actorOf(Props(new BodyScan(i, securityGuy)), name = "bodyScan " + i)
       val tempBaggageScan = tsaScreenSystem.actorOf(Props(new BaggageCheck(i, securityGuy)), name = "bodyScan " + i)
-      queues(i) = system.actorOf(Props(new Queue(i, tempBodyScan, tempBaggageScan)), name = "queue number: " + i)
+      queues(i) = tsaScreenSystem.actorOf(Props(new Queue(i, tempBodyScan, tempBaggageScan)), name = "queue number: " + i)
     }
 
-    for (i <- 0 util personCount) {
+    for (i <- 0 until personCount) {
       val person = tsaScreenSystem.actorOf(Props(new Person(i, documentCheck, queues)), name = "person: " + i)
     }
 }
