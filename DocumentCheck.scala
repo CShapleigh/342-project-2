@@ -5,11 +5,13 @@ Object DocumentCheck {
   case class Person
 }
 
-class DocumentCheck extends Actor {
+class DocumentCheck(numQueues: Int) extends Actor {
   val log = Logging(context.system, this)
 
   def recieve = {
-    case Person => log.info("Recieved a person")
+    case Document(id) =>
+      log.info( id + " documents are good")
+      sender ! ValudDocument(id % numQueues)
 
     case _ => log.info("received unknown message")
   }
