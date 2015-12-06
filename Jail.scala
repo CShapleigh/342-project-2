@@ -8,13 +8,12 @@ case class ReceivingToJail(currentPerson: ActorRef)
 class Jail() extends Actor {
 
   val log = Logging(context.system, this)
+  val peopleInJail = 0
 
-  def printJailStatus() = {
-    // TODO: implement
+  def receive = {
+    // TODO: Add people to jailed list
+
+    case GetJailStatus => sender ! peopleInJail
   }
 
-  def receive() = {
-    // TODO: Adds people to jailed list
-
-  }
 }
