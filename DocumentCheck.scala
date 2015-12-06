@@ -7,7 +7,7 @@ case object InvalidDocument
 class DocumentCheck(numQueues: Int) extends Actor {
   val log = Logging(context.system, this)
 
-  def recieve = {
+  def receive = {
     case Document(id) =>
       log.info( id + " documents are good")
       if (1 % 5 == 1) {
