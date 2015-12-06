@@ -16,7 +16,7 @@ object Driver extends App {
     for (i <- 0 util queueCount) {
       val tempBodyScan = system.actorOf(Props(new BodyScan(i, securityGuy)), name = "bodyScan " + i)
       val tempBaggageScan = system.actorOf(Props(new BaggageCheck(i, securityGuy)), name = "bodyScan " + i)
-      queues(i) = system.actorOf(Props(new Queue(i)), name = "queue number: " + i)
+      queues(i) = system.actorOf(Props(new Queue(i, tempBodyScan, tempBaggageScan)), name = "queue number: " + i)
     }
 
     for (i <- 0 util personCount) {
