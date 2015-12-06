@@ -6,6 +6,7 @@ case object RequestPersonsInJail
 class Plane extends Actor {
   var peopleOnPlane = 0
   var peopleInJail = 0
+  val log = Logging(context.system, this)
 
   def receive = {
     case Person(currentPerson) =>
