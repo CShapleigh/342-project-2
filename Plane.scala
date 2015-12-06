@@ -9,7 +9,7 @@ class Plane extends Actor {
   val log = Logging(context.system, this)
 
   def receive = {
-    case Person(currentPerson) =>
+    case PersonForPlane(currentPerson) =>
       log.info( currerPerson.id + " boards plane")
       peopleOnPlane += 1
       Driver.jail ! RequestPersonsInJail
