@@ -8,7 +8,7 @@ class DocumentCheck(numQueues: Int) extends Actor {
     case Document(id) =>
       log.info( id + " documents are good")
       if (1 % 5 == 1) {
-        securityGuy ! InvalidDocument()
+        sender ! InvalidDocument
       }
       sender ! ValidDocument(id % numQueues)
 

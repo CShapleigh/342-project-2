@@ -10,10 +10,10 @@ case object GetJailStatus
 class Jail() extends Actor {
 
   val log = Logging(context.system, this)
-  val peopleInJail = 0
+  var peopleInJail = 0
 
   def receive = {
-    case Person(currentPerson) =>
+    case PersonGoingToJail(currentPerson) =>
       log.info(currentPerson.id + " is now in jail")
       peopleInJail += 1
 

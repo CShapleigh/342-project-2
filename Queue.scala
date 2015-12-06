@@ -2,9 +2,8 @@ import akka.actor.{Actor, ActorRef}
 import akka.event.Logging
 import scala.collection.mutable
 
-case class Ticket(newGuy: ActorRef)
-case class RequestPersonBaggage(Baggage : ActorRef)
-case class RequestPersonBody(bagCheck: ActorRef)
+case class Body(currentPeron: ActorRef)
+case class Bag(currentPeron: ActorRef)
 
 
 class Queue(id: Int, bscanner: ActorRef, bagcheck: ActorRef) extends Actor {
@@ -17,13 +16,13 @@ class Queue(id: Int, bscanner: ActorRef, bagcheck: ActorRef) extends Actor {
   def receive = {
     case Ticket(newGuy) => log.info("A new person had entered queue " + id)
       if (bagReady) {
-        bagcheck ! newGuy
+        bagcheck ! Bag(newGuy)
         bagReady = false
       }
       else baggageLine.append(newGuy)
 
       if (scanReady) {
-        bscanner ! newGuy
+        bscanner ! Body(newGuy)
         bagReady = false
       }
       else SecurityLine.append(newGuy)
@@ -34,7 +33,7 @@ class Queue(id: Int, bscanner: ActorRef, bagcheck: ActorRef) extends Actor {
         bagReady = true
       }
       else {
-        sender ! baggageLine.head
+        sender ! Bag(baggageLine.head)
         baggageLine -= baggageLine.head
       }
 
@@ -43,7 +42,7 @@ class Queue(id: Int, bscanner: ActorRef, bagcheck: ActorRef) extends Actor {
         scanReady = true
       }
       else {
-        sender ! SecurityLine.head
+        sender ! Body(SecurityLine.head)
         SecurityLine -= SecurityLine.head
       }
   }
