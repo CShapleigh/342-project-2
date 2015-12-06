@@ -1,7 +1,7 @@
 import akka.actor.{ Actor, ActorRef }
 import akka.event.Logging
 
-case class RequestPerson(bagCheck: ActorRef)
+case class RequestPersonBaggage(bagCheck: ActorRef)
 case class BagReport(currentPerson: ActorRef, passed: Boolean)
 
 class BaggageCheck(queueNum: Int, securityGuy: ActorRef) extends Actor {
@@ -12,6 +12,6 @@ class BaggageCheck(queueNum: Int, securityGuy: ActorRef) extends Actor {
         securityGuy ! BagReport(currentPerson, false)
       }
       securityGuy ! BagReport(currentPerson, true)
-      sender ! RequestPerson(self)
+      sender ! RequestPersonBaggage(self)
   }
 }

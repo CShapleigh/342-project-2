@@ -1,7 +1,7 @@
 import akka.actor.{ Actor, ActorRef }
 import akka.event.Logging
 
-case class RequestPerson(bagCheck: ActorRef)
+case class RequestPersonBody(bagCheck: ActorRef)
 case class BodyReport(currentPerson: ActorRef, passed: Boolean)
 
 class BodyScan(queueNum: Int, securityGuy: ActorRef) extends Actor {
@@ -12,6 +12,6 @@ class BodyScan(queueNum: Int, securityGuy: ActorRef) extends Actor {
         securityGuy ! BodyReport(currentPerson, false)
       }
       securityGuy ! BodyReport(currentPerson, true)
-      sender ! RequestPerson(self)
+      sender ! RequestPersonBody(self)
   }
 }
