@@ -3,13 +3,12 @@ import akka.event.Logging
 
 case object Start
 case class Document(id: Int)
-case class Ticket(id: Int)
+case class Ticket(currentPerson: ActorRef)
 case class ValidDocument(queueNum: Int)
 case object InvalidDocument
 
 class Person(id: Int,  documentCheck: ActorRef, queues: Array[ActorRef]) extends Actor {
 
-  //TODO: Send to document check first, need to override the start call?
   val log = Logging(context.system, this)
 
   def preStart() = {
