@@ -15,13 +15,13 @@ class Plane extends Actor {
       Driver.jail ! RequestPersonsInJail
       if (peopleOnPlane + peopleInJail == Driver.personCount) {
         log.info("Plane takes off")
-        context.system.shotdown
+        context.system.shutdown
       }
     case JailCount(numPersons) =>
      log.info(numPersons + " persons in jail")
      if (peopleOnPlane + peopleInJail == Driver.personCount) {
        log.info("Plane takes off")
-       context.system.shotdown
+       context.system.shutdown
      }
   }
 }
