@@ -12,5 +12,6 @@ class BaggageCheck(queueNum: Int, securityGuy: ActorRef) extends Actor {
         securityGuy ! BagReport(currentPerson, false)
       }
       securityGuy ! BagReport(currentPerson, true)
+      sender ! self
   }
 }
