@@ -1,7 +1,8 @@
 import akka.actor.{Actor, ActorRef}
 import akka.event.Logging
-
 import scala.collection.mutable
+
+case class PersonGoingToJail(guiltyPerson: ActorRef)
 
 class Security(jail: ActorRef) extends Actor {
   val log = Logging(context.system, this)

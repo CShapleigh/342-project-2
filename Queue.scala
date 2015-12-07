@@ -28,7 +28,7 @@ class Queue(id: Int, bscanner: ActorRef, bagcheck: ActorRef) extends Actor {
       else SecurityLine.append(newGuy)
 
 
-    case RequestPersonBaggage() =>
+    case RequestPersonBaggage(baggageCheck) =>
       if (baggageLine.isEmpty) {
         bagReady = true
       }
@@ -37,7 +37,7 @@ class Queue(id: Int, bscanner: ActorRef, bagcheck: ActorRef) extends Actor {
         baggageLine -= baggageLine.head
       }
 
-    case  RequestPersonBody() =>
+    case  RequestPersonBody(bodyCheck) =>
       if (SecurityLine.isEmpty) {
         scanReady = true
       }

@@ -10,7 +10,7 @@ class Plane extends Actor {
 
   def receive = {
     case PersonForPlane(currentPerson) =>
-      log.info( currerPerson.id + " boards plane")
+      log.info( currentPerson.id + " boards plane")
       peopleOnPlane += 1
       Driver.jail ! RequestPersonsInJail
       if (peopleOnPlane + peopleInJail == Driver.personCount) {

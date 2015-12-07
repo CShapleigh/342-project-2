@@ -18,7 +18,7 @@ class Person(id: Int,  documentCheck: ActorRef, queues: Array[ActorRef]) extends
       log.info(id + "goes to queue " + queueNum)
       queues(queueNum) ! Ticket(self)
 
-    case InvalidDocument() =>
+    case InvalidDocument =>
       log.info(id + "has invalid documents and goes home")
   }
 
