@@ -5,7 +5,7 @@ import scala.collection.mutable
 case class PersonGoingToJail(guiltyPerson: ActorRef)
 case class PersonForPlane(goodPerson: ActorRef)
 
-class Security(jail: ActorRef) extends Actor {
+class Security(jail: ActorRef, plane: ActorRef) extends Actor {
   val log = Logging(context.system, this)
   val   baggageReports = mutable.ArrayBuffer[Boolean]()
   val   personReports = mutable.ArrayBuffer[Boolean]()
@@ -32,7 +32,7 @@ class Security(jail: ActorRef) extends Actor {
   }
   def guiltyorNot() = {
     if (baggageReports.head && personReports.head){
-      Driver.plane ! PersonForPlane(PeopleWaiting.head)
+      plane ! PersonForPlane(PeopleWaiting.head)
       log.info("Go directly to the plane")
       PeopleWaiting -= PeopleWaiting.head
       personReports -= personReports.head

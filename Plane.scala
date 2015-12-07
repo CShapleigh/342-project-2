@@ -1,9 +1,9 @@
-import akka.actor.Actor
+import akka.actor.{ Actor, ActorRef }
 import akka.event.Logging
 
 case object RequestPersonsInJail
 
-class Plane extends Actor {
+class Plane(jail: ActorRef, personCount: Int ) extends Actor {
   var peopleOnPlane = 0
   var peopleInJail = 0
   val log = Logging(context.system, this)
@@ -12,14 +12,14 @@ class Plane extends Actor {
     case PersonForPlane(currentPerson) =>
       currentPerson ! PleaseGiveId
       peopleOnPlane += 1
-      Driver.jail ! RequestPersonsInJail
-      if (peopleOnPlane + peopleInJail == Driver.personCount) {
+      jail ! RequestPersonsInJail
+      if (peopleOnPlane + peopleInJail == personCount) {
         log.info("Plane takes off")
         context.system.shutdown
       }
     case JailCount(numPersons) =>
      log.info(numPersons + " persons in jail")
-     if (peopleOnPlane + peopleInJail == Driver.personCount) {
+     if (peopleOnPlane + peopleInJail == personCount) {
        log.info("Plane takes off")
        context.system.shutdown
      }

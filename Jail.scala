@@ -19,6 +19,9 @@ class Jail() extends Actor {
 
     case RequestPersonsInJail =>
       sender ! JailCount(peopleInJail)
+
+    case SendID(personID) =>
+      log.info(personID + " is now in jail")
   }
 
 }
