@@ -14,7 +14,7 @@ class Jail() extends Actor {
 
   def receive = {
     case PersonGoingToJail(currentPerson) =>
-      log.info(currentPerson.id + " is now in jail")
+      currentPerson ! PleaseGiveId
       peopleInJail += 1
 
     case RequestPersonsInJail =>

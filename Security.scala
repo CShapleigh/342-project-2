@@ -10,6 +10,7 @@ class Security(jail: ActorRef) extends Actor {
   val   baggageReports = mutable.ArrayBuffer[Boolean]()
   val   personReports = mutable.ArrayBuffer[Boolean]()
   val   PeopleWaiting = mutable.ArrayBuffer[ActorRef]()
+
   def receive = {
     case BodyReport(person, status) =>
       if(person == PeopleWaiting.head){

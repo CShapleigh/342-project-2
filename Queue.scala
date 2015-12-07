@@ -5,7 +5,6 @@ import scala.collection.mutable
 case class Body(currentPeron: ActorRef)
 case class Bag(currentPeron: ActorRef)
 
-
 class Queue(id: Int, bscanner: ActorRef, bagcheck: ActorRef) extends Actor {
   val log = Logging(context.system, this)
   val baggageLine = mutable.ArrayBuffer[ActorRef]()
@@ -45,6 +44,7 @@ class Queue(id: Int, bscanner: ActorRef, bagcheck: ActorRef) extends Actor {
         sender ! Body(SecurityLine.head)
         SecurityLine -= SecurityLine.head
       }
+
   }
 
 }

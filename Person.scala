@@ -3,6 +3,7 @@ import akka.event.Logging
 
 case class Document(id: Int)
 case class Ticket(currentPerson: ActorRef)
+case class SendID(id: Int)
 
 class Person(id: Int,  documentCheck: ActorRef, queues: Array[ActorRef]) extends Actor {
 
@@ -20,6 +21,9 @@ class Person(id: Int,  documentCheck: ActorRef, queues: Array[ActorRef]) extends
 
     case InvalidDocument =>
       log.info(id + "has invalid documents and goes home")
+
+    case PleaseGiveId =>
+      sender ! SendID(id)
   }
 
 }
