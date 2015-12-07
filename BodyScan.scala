@@ -11,7 +11,8 @@ class BodyScan(queueNum: Int, securityGuy: ActorRef) extends Actor {
   def receive = {
     case Body(currentPerson) =>
       log.info("Body scan " + queueNum + " scanning passenger " + currentPerson.id + " luggage.Sending report")
-      if (1 % 5 == 1) {
+      val r = scala.util.Random
+      if (r.nextInt(100) <= 20) {
         securityGuy ! BodyReport(currentPerson, false)
       }
       securityGuy ! BodyReport(currentPerson, true)

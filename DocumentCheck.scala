@@ -10,7 +10,8 @@ class DocumentCheck(numQueues: Int) extends Actor {
   def receive = {
     case Document(id) =>
       log.info( id + " documents are good")
-      if (1 % 5 == 1) {
+      val r = scala.util.Random
+      if (r.nextInt(100) <= 20) {
         sender ! InvalidDocument
       }
       sender ! ValidDocument(id % numQueues)
