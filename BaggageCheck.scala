@@ -1,11 +1,23 @@
-import akka.actor.{ Actor, ActorRef }
+import akka.actor.{Props, Actor, ActorRef}
 import akka.event.Logging
 
-case class RequestPersonBaggage(bagCheck: ActorRef)
-case class BagReport(currentPerson: ActorRef, passed: Boolean)
+object BaggageCheck {
+
+  case class RequestPersonBaggage(bagCheck: ActorRef)
+
+  case class BagReport(currentPerson: ActorRef, passed: Boolean)
+
+  case object PleaseGiveId
+
+  case class Bag(currentPerson: ActorRef)
+
+  case class SendID(personID: Int)
+
+  def props(queueNum: Int, security: ActorRef): Props = Props(new BaggageCheck(queueNum, security))
+}
 
 class BaggageCheck(queueNum: Int, securityGuy: ActorRef) extends Actor {
-
+  import BaggageCheck._
   val log = Logging(context.system, this)
 
   def receive = {

@@ -2,12 +2,16 @@ import akka.actor.{ Actor, Props, ActorSystem, ActorRef }
 
 
 object Driver extends App {
+
+}
+class Driver {
   def main(args: Array[String]) {
+    import Driver._
     val personCount = 7
     val queueCount = 2
 
     val tsaScreenSystem = ActorSystem("TSA")
-    val jail = tsaScreenSystem.actorOf(Props[Jail], name = "jail")
+    val jail = tsaScreenSystem.actorOf(Props[Jail], "jail")
     val plane = tsaScreenSystem.actorOf(Props(new Plane(jail, personCount)))
     val securityGuy = tsaScreenSystem.actorOf(new Security(jail, plane), name = "joe")
 

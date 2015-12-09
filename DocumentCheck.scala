@@ -1,10 +1,15 @@
-import akka.actor.Actor
+import akka.actor.{Props, ActorRef, Actor}
 import akka.event.Logging
+object DocumentCheck {
 
-case class ValidDocument(id: Int)
-case object InvalidDocument
+  case class ValidDocument(id: Int)
 
+  case object InvalidDocument
+  case class Document(id: Int)
+  def props(queueNum: Int): Props = Props(new DocumentCheck(queueNum))
+}
 class DocumentCheck(numQueues: Int) extends Actor {
+  import DocumentCheck._
   val log = Logging(context.system, this)
 
   def receive = {

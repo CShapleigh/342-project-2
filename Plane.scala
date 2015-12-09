@@ -1,9 +1,18 @@
-import akka.actor.{ Actor, ActorRef }
+import akka.actor.{ Actor, ActorRef, Props }
 import akka.event.Logging
 
-case object RequestPersonsInJail
+object Plane {
 
+  case object RequestPersonsInJail
+  case object PleaseGiveId
+  case class PersonForPlane(currentPerson: ActorRef)
+  case class JailCount(numPersons: Int)
+  case class SendID(personID: Int)
+  def props(jailref: ActorRef,people: Int): Props = Props(new Plane(jailref, people))
+
+}
 class Plane(jail: ActorRef, personCount: Int ) extends Actor {
+  import Plane._
   var peopleOnPlane = 0
   var peopleInJail = 0
   val log = Logging(context.system, this)

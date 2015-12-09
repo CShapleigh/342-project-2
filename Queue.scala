@@ -1,11 +1,21 @@
-import akka.actor.{Actor, ActorRef}
+import akka.actor.{Props, Actor, ActorRef}
 import akka.event.Logging
 import scala.collection.mutable
+object Queue {
 
-case class Body(currentPeron: ActorRef)
-case class Bag(currentPeron: ActorRef)
+  case class Body(currentPeron: ActorRef)
 
+  case class Bag(currentPeron: ActorRef)
+
+  case class Ticket(newGuy: ActorRef)
+
+  case class RequestPersonBaggage(baggageCheck: ActorRef)
+
+  case class RequestPersonBody(BodyCheck: ActorRef)
+  def props(id: Int, bscanner: ActorRef, bagcheck: ActorRef): Props = Props(new Queue(id, bscanner,bagcheck))
+}
 class Queue(id: Int, bscanner: ActorRef, bagcheck: ActorRef) extends Actor {
+  import Queue._
   val log = Logging(context.system, this)
   val baggageLine = mutable.ArrayBuffer[ActorRef]()
   var bagReady = true

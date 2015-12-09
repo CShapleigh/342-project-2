@@ -1,11 +1,20 @@
-import akka.actor.{Actor, ActorRef}
+import akka.actor.{Props, Actor, ActorRef}
 import akka.event.Logging
 import scala.collection.mutable
 
-case class PersonGoingToJail(guiltyPerson: ActorRef)
-case class PersonForPlane(goodPerson: ActorRef)
+object Security {
 
+  case class PersonGoingToJail(guiltyPerson: ActorRef)
+
+  case class PersonForPlane(goodPerson: ActorRef)
+
+  case class BodyReport(person: ActorRef, status :Boolean)
+
+  case class BagReport(person: ActorRef, status :Boolean)
+  def props(jail: ActorRef, plane: ActorRef): Props = Props(new Security(jail, plane))
+}
 class Security(jail: ActorRef, plane: ActorRef) extends Actor {
+  import Security._
   val log = Logging(context.system, this)
   val   baggageReports = mutable.ArrayBuffer[Boolean]()
   val   personReports = mutable.ArrayBuffer[Boolean]()
