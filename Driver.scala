@@ -7,9 +7,9 @@ object Driver {
     val queueCount = 2
 
     val tsaScreenSystem = ActorSystem()
-    val jail = tsaScreenSystem.actorOf(Props[Jail])
-    val plane = tsaScreenSystem.actorOf(Props(new Plane(jail, personCount)))
-    val securityGuy = tsaScreenSystem.actorOf(Props(new Security(jail, plane)))
+    val jail = tsaScreenSystem.actorOf(Props[Jail], name = "JAIL")
+    val plane = tsaScreenSystem.actorOf(Props(new Plane(jail, personCount)), name = "Plane" )
+    val securityGuy = tsaScreenSystem.actorOf(Props(new Security(jail, plane)), name = "Security")
 
     val queues: Array[ActorRef] = new Array(queueCount)
     val documentCheck = tsaScreenSystem.actorOf(Props(new DocumentCheck(queueCount)), name = "documentCheck")

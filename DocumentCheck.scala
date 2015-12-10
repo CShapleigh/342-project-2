@@ -2,7 +2,7 @@ import akka.actor.{Props, ActorRef, Actor}
 import akka.event.Logging
 object DocumentCheck {
 
-  case class ValidDocument(id: Int)
+  //case class ValidDocument(id: Int)
 
   case object InvalidDocument
   case class Document(id: Int)
@@ -19,7 +19,7 @@ class DocumentCheck(numQueues: Int) extends Actor {
       if (r.nextInt(100) <= 20) {
         sender ! InvalidDocument
       }
-      sender ! ValidDocument(id % numQueues)
+      sender ! Person.ValidDocument(id % numQueues)
 
     case _ => log.info("received unknown message")
   }

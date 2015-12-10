@@ -3,11 +3,11 @@ import akka.event.Logging
 
 object BaggageCheck {
 
-  case class RequestPersonBaggage(bagCheck: ActorRef)
+  //case class RequestPersonBaggage(bagCheck: ActorRef)
 
   case class BagReport(currentPerson: ActorRef, passed: Boolean)
 
-  case object PleaseGiveId
+  //case object PleaseGiveId
 
   case class Bag(currentPerson: ActorRef)
 
@@ -22,13 +22,13 @@ class BaggageCheck(queueNum: Int, securityGuy: ActorRef) extends Actor {
 
   def receive = {
     case Bag(currentPerson) =>
-      currentPerson ! PleaseGiveId
+      currentPerson ! Person.PleaseGiveId
       val r = scala.util.Random
       if (r.nextInt(100) <= 20) {
-        securityGuy ! BagReport(currentPerson, false)
+        securityGuy ! Security.BagReport(currentPerson, false)
       }
-      securityGuy ! BagReport(currentPerson, true)
-      sender ! RequestPersonBaggage(self)
+      securityGuy ! Security.BagReport(currentPerson, true)
+      sender ! Queue.RequestPersonBaggage(self)
 
     case SendID(personID) =>
       log.info("Bag scan " + queueNum + " scanning passenger " + personID + "s luggage.Sending report")

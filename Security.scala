@@ -22,38 +22,75 @@ class Security(jail: ActorRef, plane: ActorRef) extends Actor {
 
   def receive = {
     case BodyReport(person, status) =>
-      if(person == PeopleWaiting.head){
-        guiltyorNot()
+      if (PeopleWaiting.isEmpty){
+        PeopleWaiting += person
+        personReports += status
+      }
+      else if(person == PeopleWaiting(0)){
+        if (baggageReports(0) && personReports(0)){
+          plane ! Plane.PersonForPlane(PeopleWaiting(0))
+          log.info("Go directly to the plane")
+          PeopleWaiting.remove(0) //-= PeopleWaiting(0)
+          personReports.remove(0) //-= personReports(0)
+          baggageReports.remove(0)// -= baggageReports(0)
+
+        }
+        else{
+          jail ! Jail.PersonGoingToJail(PeopleWaiting(0))
+          log.info("Go directly to jail")
+          PeopleWaiting.remove(0)// -= PeopleWaiting(0)
+          personReports.remove(0)// -= personReports(0)
+          baggageReports.remove(0)// -= baggageReports(0)
+        }
       }
       else{
-        PeopleWaiting.append(person)
-        personReports.append(status)
+        PeopleWaiting+= person
+        personReports+= status
       }
 
     case BagReport(person, status) =>
-      if(person == PeopleWaiting.head){
-        guiltyorNot()
+      if (PeopleWaiting.isEmpty){
+        PeopleWaiting += person
+        baggageReports += status
+      }
+      else if(person == PeopleWaiting(0)){
+        if (baggageReports(0) && personReports(0)){
+          plane ! Plane.PersonForPlane(PeopleWaiting(0))
+          log.info("Go directly to the plane")
+          PeopleWaiting.remove(0) //-= PeopleWaiting(0)
+          personReports.remove(0) //-= personReports(0)
+          baggageReports.remove(0) //-= baggageReports(0)
+
+        }
+        else{
+          jail ! Jail.PersonGoingToJail(PeopleWaiting(0))
+          log.info("Go directly to jail")
+          PeopleWaiting.remove(0) // -= PeopleWaiting(0)
+          personReports.remove(0) //-= personReports(0)
+          baggageReports.remove(0)// -= baggageReports(0)
+        }
       }
       else{
-        PeopleWaiting.append(person)
-        baggageReports.append(status)
+        PeopleWaiting += person
+        baggageReports += status
       }
   }
-  def guiltyorNot() = {
-    if (baggageReports.head && personReports.head){
-      plane ! PersonForPlane(PeopleWaiting.head)
+/**  def guiltyorNot() = {
+    if (baggageReports(0) && personReports(0)){
+      plane ! Plane.PersonForPlane(PeopleWaiting(0))
       log.info("Go directly to the plane")
-      PeopleWaiting -= PeopleWaiting.head
-      personReports -= personReports.head
-      baggageReports -= baggageReports.head
+      PeopleWaiting -= PeopleWaiting(0)
+      personReports -= personReports(0)
+      baggageReports -= baggageReports(0)
 
     }
     else{
-      jail ! PersonGoingToJail(PeopleWaiting.head)
+      jail ! Jail.PersonGoingToJail(PeopleWaiting(0))
       log.info("Go directly to jail")
-      PeopleWaiting -= PeopleWaiting.head
-      personReports -= personReports.head
-      baggageReports -= baggageReports.head
+      PeopleWaiting -= PeopleWaiting(0)
+      personReports -= personReports(0)
+      baggageReports -= baggageReports(0)
     }
   }
+  **/
 }
